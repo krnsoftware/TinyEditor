@@ -14,7 +14,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string></string>
 			<key>CFBundleTypeName</key>
-			<string>DocumentType</string>
+			<string>TinyEditor Document</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>????</string>
@@ -53,5 +53,21 @@
 	<true/>
 	<key>NSSupportsSuddenTermination</key>
 	<true/>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeDescription</key>
+			<string>TinyEditor Document UTI</string>
+			<key>UTTypeIdentifier</key>
+			<string>krnsoftware.tinyeditor</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>tinyeditor</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>
