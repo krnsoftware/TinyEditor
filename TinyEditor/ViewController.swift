@@ -29,10 +29,16 @@ class ViewController: NSViewController {
         
         textView.font = NSFont.systemFont(ofSize: 17.0)
         textView.delegate = self as NSTextViewDelegate
+        
+        handleOpenDocumentOperation()
     }
     
     func setBGColor(with name: String){
         textView.backgroundColor = AppColors.bgColors.filter { $0.name == name }.first?.color ?? NSColor.textBackgroundColor
+        
+        if let colorIndex = AppColors.bgColors.firstIndex(where: { $0.name == name }) {
+            (representedObject as? TinyNote)?.bgColorIndex = colorIndex
+        }
     }
     
     func setTextColor(with name: String) {
@@ -41,6 +47,26 @@ class ViewController: NSViewController {
      
         // Update the cursor color!
         textView.insertionPointColor = textView.textColor ?? NSColor.textColor
+        
+        if let colorIndex = AppColors.textColors.firstIndex(where: { $0.name == name }) {
+            (representedObject as? TinyNote)?.textColorIndex = colorIndex
+        }
+    }
+    
+    func handleOpenDocumentOperation(){
+        if let document = self.view.window?.windowController?.document as? Document {
+            if document.didReadData {
+                populateDocumentContent()
+                document.didReadData = false
+            }
+        }
+    }
+    
+    func populateDocumentContent() {
+        guard let content = representedObject as? TinyNote else { return }
+        textView.string = content.note
+        setBGColor(with: AppColors.bgColors[content.bgColorIndex].name)
+        setTextColor(with: AppColors.textColors[content.textColorIndex].name)
     }
 }
 
