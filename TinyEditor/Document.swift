@@ -10,6 +10,8 @@ import Cocoa
 
 class Document: NSDocument {
 
+    var content = TinyNote()
+    
     override init() {
         super.init()
         // Add your subclass-specific initialization here.
@@ -24,6 +26,8 @@ class Document: NSDocument {
         let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
         let windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Document Window Controller")) as! NSWindowController
         self.addWindowController(windowController)
+        
+        windowController.contentViewController?.representedObject = content
     }
 
     override func data(ofType typeName: String) throws -> Data {

@@ -36,9 +36,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let docController = NSDocumentController()
         guard let vc = docController.currentDocument?.windowControllers.first?.contentViewController as? ViewController else { return }
         vc.setBGColor(with: menuItem.title)
+        // 色変更のメッセージをすべてAppDelegateで受けているため、メッセージを発出したドキュメントをNSDocumentControllerのインスタンスを作成してcurrentDocument->windowController->first->conentViewControllerで得てViewControllerにキャストして利用するという迂遠な設計になっている。
     }
     
-    // 色変更のメッセージをすべてAppDelegateで受けているため、メッセージを発出したドキュメントをNSDocumentControllerのインスタンスを作成してcurrentDocument->windowController->first->conentViewControllerで得てViewControllerにキャストして利用するという迂遠な設計になっている。
+    fileprivate func configureTextColorsMenu() {
+        //AppColors.textColors.forEach { textColorMenu?.addItem(withTitle: $0.name, action: #selector(handleTextColorSelection(_:)), keyEquivalent: "")}
+        for color in AppColors.textColors {
+            textColorMenu?.addItem(withTitle: color.name, action: #selector(handleTextColorSelection(_:)), keyEquivalent: "" )
+        }
+    }
+    
+    @objc fileprivate func handleTextColorSelection(_ menuItem: NSMenuItem){
+        let docController = NSDocumentController()
+        guard let vc = docController.currentDocument?.windowControllers.first?.contentViewController as? ViewController else { return }
+        vc.setTextColor(with: menuItem.title)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        configureBGColorsMenu()
+        configureTextColorsMenu()
+    }
     
     
 
