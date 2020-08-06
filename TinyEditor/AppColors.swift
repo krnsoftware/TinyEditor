@@ -20,3 +20,4 @@ struct AppColors {
         ("Dark", NSColor.black),
         ("Light", NSColor.white)]
 }
+
