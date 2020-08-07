@@ -45,10 +45,12 @@ class Document: NSDocument {
         // Alternatively, you could remove this method and override read(from:ofType:) instead.
         // If you do, you should also override isEntireFileLoaded to return false if the contents are lazily loaded.
         
-        dump(typeName)
-        if content.use(data: data){
-            didReadData = true
-            return
+        dump(fileType) // fileTypeはtypeNameと同じ値を返す様子。
+        if typeName == "TinyEditor Document" {
+            if content.use(data: data){
+                didReadData = true
+                return
+            }
         }
         throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
     }
