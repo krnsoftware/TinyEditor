@@ -44,10 +44,10 @@ class TinyNote: Codable {
     }
     
     func use(data: Data, ofType typeName: String) -> Bool {
-        // rawValueToCaseがエラーをthrowしない関数のためguardには意味がない。
-        guard let type = try? DocumentType.rawValueToCase(typeName)  else { return false }
+        guard let type = DocumentType.rawValueToCase(typeName)  else { return false }
         switch type {
         case DocumentType.plainTextDocument:
+            dump(String.detectCharacterEncoding(data))
             if let text = String(data: data, encoding: .utf8){
                 dump(text)
                 note = text
