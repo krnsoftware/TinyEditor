@@ -13,6 +13,18 @@ class TinyNote: Codable {
     var bgColorIndex: Int = 0
     var textColorIndex: Int = 1
     
+    enum DocumentType: String, CaseIterable {
+        case plainTextDocument = "Plain Text Document"
+        case tinyEditorDocument = "TinyEditor Document"
+        
+        static func rawValueToCase(_ rawValue: String) -> DocumentType?  {
+            for type in DocumentType.allCases {
+                if type.rawValue == rawValue { return type }
+            }
+            return nil
+        }
+    }
+    
     init() {
         
     }
@@ -29,6 +41,24 @@ class TinyNote: Codable {
         bgColorIndex = decoded.bgColorIndex
         textColorIndex = decoded.textColorIndex
         return true
+    }
+    
+    func use(data: Data, ofType typeName: String) -> Bool {
+        // rawValueToCaseがエラーをthrowしない関数のためguardには意味がない。
+        guard let type = try? DocumentType.rawValueToCase(typeName)  else { return false }
+        switch type {
+        case DocumentType.plainTextDocument:
+            if let text = String(data: data, encoding: .utf8){
+                dump(text)
+                note = text
+                bgColorIndex = 0
+                textColorIndex = 0
+                return true
+            }
+        case DocumentType.tinyEditorDocument:
+            return self.use(data: data)
+        }
+        return false
     }
 }
 
