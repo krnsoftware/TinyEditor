@@ -47,9 +47,10 @@ class TinyNote: Codable {
         guard let type = DocumentType.rawValueToCase(typeName)  else { return false }
         switch type {
         case DocumentType.plainTextDocument:
-            dump(String.detectCharacterEncoding(data))
-            if let text = String(data: data, encoding: .utf8){
-                dump(text)
+            guard let encoding = String.detectCharacterEncoding(data) else { return false }
+            dump(encoding)
+            if let text = String(data: data, encoding: encoding){
+                print(text)
                 note = text
                 bgColorIndex = 0
                 textColorIndex = 0
